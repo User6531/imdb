@@ -6,12 +6,33 @@ type User = {
     password: string;
     email: string;
 }
+type TFilm = {
+    id: string;
+    title: string;
+    year: string;
+    genre: string;
+    poster: string;
+    director: string;
+    imdbrating: string;
+}
 interface IInitialState {
     users: {
         data: [] | User[],
-        isLoading: false,
-        error: ''
-    }
+        isLoading: boolean,
+        error: string;
+    },
+    currentUser: {
+        isAuthorized: boolean;
+        id: string;
+        name: string;
+        password: string;
+        email: string;
+    },
+    films: {
+        data: [] | TFilm[];
+        isLoading: boolean;
+        error: string;
+    },
 }
 
 const initialState: IInitialState = {
@@ -19,6 +40,18 @@ const initialState: IInitialState = {
         data: [],
         isLoading: false,
         error: ''
+    },
+    currentUser: {
+        isAuthorized: false,
+        id: '',
+        name: '',
+        password: '', 
+        email: ''
+    },
+    films: {
+        data: [],
+        isLoading: false,
+        error: '',
     }
 }
 
@@ -28,23 +61,41 @@ export const LoginSlice = createSlice({
     reducers: {
         setUser(state, action: PayloadAction<User>) {
             state.users.data = [...state.users.data, action.payload];
-        }
+            state.currentUser = {
+                ...action.payload,
+                isAuthorized: true,
+            }
+        },
+        signIn(state, action: PayloadAction<User>) {
+            state.currentUser = {
+                ...action.payload,
+                isAuthorized: true,
+            }
+        },
+        logOut(state) {
+            state.currentUser = {
+                isAuthorized: false,
+                id: '',
+                name: '',
+                password: '', 
+                email: ''
+            }
+        },
 
-        // user info
-        // loginFetching(state) {
-        //     state.user.isLoading = true;
-        // },
-        // loginFetchingSuccess(state, action: PayloadAction<{id: string; isTermsAndConditionsAccepted: boolean; accessToken: string}>) {
-        //     state.user.isLoading = false;
-        //     state.user.error = '';
-        //     state.user.data.id = action.payload.id;
-        //     state.user.data.isTermsAndConditionsAccepted = action.payload.isTermsAndConditionsAccepted;
-        //     state.user.data.accessToken = action.payload.accessToken;
-        // },
-        // loginFetchingError(state, action: PayloadAction<string>) {
-        //     state.user.isLoading = false;
-        //     state.user.error = action.payload;
-        // }
+        // films
+        filmsFetching(state) {
+            state.films.isLoading = true;
+        },
+        filmsFetchingSuccess(state, action: PayloadAction<TFilm[]>) {
+            state.films.isLoading = false;
+            state.films.error = '';
+            state.films.data = action.payload;
+            
+        },
+        filmsFetchingError(state, action: PayloadAction<string>) {
+            state.films.isLoading = false;
+            state.films.error = action.payload;
+        }
     }
 })
 

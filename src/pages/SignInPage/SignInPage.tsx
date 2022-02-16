@@ -7,12 +7,15 @@ import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 
 // redux
-import { useAppSelector } from 'hooks/useRedux';
+import { useAppSelector, useAppDispatch } from 'hooks/useRedux';
+import { LoginSlice } from 'store/LoginReducer/LoginSlice';
 
 export const SignInPage: React.FC = (): JSX.Element => {
 
     // store
     const { users : {data} } = useAppSelector((state) => state.LoginSlice);
+    const { signIn } = LoginSlice.actions;
+    const dispatch = useAppDispatch();
 
     const navigate = useNavigate();
 
@@ -34,6 +37,7 @@ export const SignInPage: React.FC = (): JSX.Element => {
             } else if (user.password != password) {
                 setUserError('Password is not correct');
             } else if (user.password === password) {
+                dispatch(signIn(user));
                 navigate('/home');
             } else {
                 setUserError('Something goes wrong');
