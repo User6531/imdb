@@ -7,6 +7,18 @@ import Button from '@mui/material/Button';
 import { useAppDispatch, useAppSelector } from 'hooks/useRedux';
 import { LoginSlice } from 'store/LoginReducer/LoginSlice';
 import { fetchFilms } from 'store/LoginReducer/LoginActionCreator';
+import { Card } from './components/Card/Card'; 
+
+//types
+type TFilm = {
+    id: string;
+    title: string;
+    year: string;
+    genre: string;
+    poster: string;
+    director: string;
+    imdbrating: string;
+}
 
 export const HomePage: React.FC = (): JSX.Element => {
 
@@ -50,10 +62,25 @@ export const HomePage: React.FC = (): JSX.Element => {
 
     return (
         <S.Wrapper>
+
+            {isLoading && (
+                <div>Loading...</div>
+            )}
+
+            {error && (
+                <div>{error}</div>
+            )}
+
             <Header />
 
             <S.CardsWrapper>
-
+                {data.map((film: TFilm, i: number) => i < 10 && (
+                    <Card
+                        isAuthorized={currentUser.isAuthorized}
+                        key={film.id}
+                        card={film}
+                    />
+                ))}
             </S.CardsWrapper>
 
         </S.Wrapper>

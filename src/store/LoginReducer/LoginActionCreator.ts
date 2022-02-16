@@ -16,8 +16,7 @@ type TFilm = {
 export const fetchFilms= () => async (dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(LoginSlice.actions.filmsFetching());
-        const response = await axios.get<TFilm[]>(`imdb.json`);
-        console.log(response.data);
+        const response = await axios.get<TFilm[]>(`https://raw.githubusercontent.com/User6531/imdb/main/src/imdb.json`);
         dispatch(LoginSlice.actions.filmsFetchingSuccess(response.data))
     } catch (error) {
         const { message } = error as Error;

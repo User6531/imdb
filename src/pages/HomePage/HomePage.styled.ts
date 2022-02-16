@@ -6,9 +6,8 @@ import {
 
 const
 Wrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
 `,
 Button = styled(muiButton)`&&& {
     font-size: 18px;
@@ -23,18 +22,20 @@ ButtonGroup = styled(muiButtonGroup)`&&&{
 }`,
 HelloTitle = styled.div``,
 Header = styled.div`
-width: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
 `,
 CardsWrapper = styled.div`
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 `
 
-export default {
+export default { 
     Wrapper,
     Button,
     ButtonGroup,
