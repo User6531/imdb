@@ -20,14 +20,14 @@ Wrapper = styled.div`
 `,
 Button = styled(muiButton)`&&& {
     font-size: 18px;
-    
+}`,
+ButtonGroup = styled(muiButtonGroup)`&&&{
+    margin: 30px auto;
+
     a {
         text-decoration: none;
         color: inherit;
     }
-}`,
-ButtonGroup = styled(muiButtonGroup)`&&&{
-    margin: 30px auto;
 }`,
 HelloTitle = styled.div``,
 Header = styled.div`
