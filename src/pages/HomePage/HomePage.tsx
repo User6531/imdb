@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import S from './HomePage.styled';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 // redux
 import { useAppDispatch, useAppSelector } from 'hooks/useRedux';
 import { LoginSlice } from 'store/LoginReducer/LoginSlice';
 import { fetchFilms } from 'store/LoginReducer/LoginActionCreator';
 import { Card } from './components/Card/Card'; 
+import { Modal } from '@mui/material';
 
 //types
 type TFilm = {
@@ -18,6 +20,8 @@ type TFilm = {
     poster: string;
     director: string;
     imdbrating: string;
+    rated: string;
+    country: string;
 }
 
 export const HomePage: React.FC = (): JSX.Element => {
@@ -34,7 +38,26 @@ export const HomePage: React.FC = (): JSX.Element => {
     useEffect(() => { 
         dispatch(fetchFilms());
     }, [])
-    
+
+    // infinite-scroll-setup
+    const [count, setCount] = useState({prev: 0,next: 20});
+    const [hasMore, setHasMore] = useState(true);
+    const [current, setCurrent] = useState(data.slice(count.prev, count.next))
+    const getMoreData = () => {
+        if (current.length >= data.length) {
+          setHasMore(false);
+          return;
+        }
+        setTimeout(() => {
+          setCurrent(current.concat(data.slice(count.prev + 20, count.next + 20)));
+        }, 1000)
+        setCount((prevState) => ({ prev: prevState.prev + 20, next: prevState.next + 20 }));
+    }
+
+    useEffect(() => {
+        setCurrent(data.slice(count.prev, count.next));
+    }, [data])
+
     const logOutHandler = () => {
         dispatch(logOut());
     }
@@ -46,7 +69,6 @@ export const HomePage: React.FC = (): JSX.Element => {
                     <Button onClick={logOutHandler}>LogOut</Button>
                     <S.HelloTitle>Welcome {currentUser.name}</S.HelloTitle>
                 </S.Header>
-                
             )
         } else {
             return (
@@ -63,9 +85,7 @@ export const HomePage: React.FC = (): JSX.Element => {
     return (
         <S.Wrapper>
 
-            {isLoading && (
-                <div>Loading...</div>
-            )}
+            <Modal open={isLoading}><S.Loading>Loading...</S.Loading></Modal>
 
             {error && (
                 <div>{error}</div>
@@ -73,15 +93,21 @@ export const HomePage: React.FC = (): JSX.Element => {
 
             <Header />
 
-            <S.CardsWrapper>
-                {data.map((film: TFilm, i: number) => i < 10 && (
+            <InfiniteScroll
+                dataLength={current.length}
+                next={getMoreData}
+                hasMore={hasMore}
+                loader={<S.Loading>Loading...</S.Loading>}
+                className='infinite-scroll'
+            >
+                {current && current.map((film: TFilm) => (
                     <Card
                         isAuthorized={currentUser.isAuthorized}
                         key={film.id}
                         card={film}
                     />
                 ))}
-            </S.CardsWrapper>
+            </InfiniteScroll>
 
         </S.Wrapper>
     )

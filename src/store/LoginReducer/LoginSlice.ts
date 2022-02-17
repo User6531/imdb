@@ -14,6 +14,8 @@ type TFilm = {
     poster: string;
     director: string;
     imdbrating: string;
+    rated: string;
+    country: string;
 }
 interface IInitialState {
     users: {
@@ -65,12 +67,14 @@ export const LoginSlice = createSlice({
                 ...action.payload,
                 isAuthorized: true,
             }
+            localStorage.clear();
         },
         signIn(state, action: PayloadAction<User>) {
             state.currentUser = {
                 ...action.payload,
                 isAuthorized: true,
             }
+            localStorage.clear();
         },
         logOut(state) {
             state.currentUser = {

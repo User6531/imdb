@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import S from './SignUpPage.styled';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -11,7 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'hooks/useRedux';
 import { LoginSlice } from 'store/LoginReducer/LoginSlice';
 
-export const SignUpPage: React.FC = (): JSX.Element => {
+// types
+interface ISignUpPageProps {
+    signUpBehavior: 'first' | 'resume';
+}
+
+export const SignUpPage: React.FC<ISignUpPageProps> = ({signUpBehavior}): JSX.Element => {
 
     // store
     const { setUser } = LoginSlice.actions;
@@ -22,6 +27,17 @@ export const SignUpPage: React.FC = (): JSX.Element => {
     const [ email, setEmail ] = useState('');
     const [ name, setName ] = useState('');
     const [ password, setPassword ] = useState('');
+
+    // local storage settings
+    useEffect(() => {
+        if (signUpBehavior === 'resume') {
+            setEmail(localStorage.getItem('email')  || '');
+            setName(localStorage.getItem('name')  || '');
+            setPassword(localStorage.getItem('password')  || '');
+        } else if (signUpBehavior === 'first') {
+            localStorage.clear();
+        }
+    }, [signUpBehavior])
 
     const [ validateError, setValidateError ] = useState<{[arg: string]: string}>({
         nameError: '',
@@ -71,6 +87,7 @@ export const SignUpPage: React.FC = (): JSX.Element => {
         const value = e.target.value;
         if (/^[A-Za-z0-9.@_-]+$/.test(value) || value === '') {
             setEmail(value);
+            localStorage.setItem('email', value);
         }
     }
 
@@ -78,12 +95,14 @@ export const SignUpPage: React.FC = (): JSX.Element => {
         const value = e.target.value;
         if (!value.match(/[^a-zA-Z0-9 ]/g)) {
             setName(value);
+            localStorage.setItem('name', value);
         }
     }
 
     const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setPassword(value);
+        localStorage.setItem('password', value);
     }
 
     return (
@@ -98,7 +117,7 @@ export const SignUpPage: React.FC = (): JSX.Element => {
                     <TextField
                         error={!!validateError.mailError}
                         label="E-mail"
-                        defaultValue={email}
+                        value={email}
                         onChange={onChangeEmail}
                         helperText={validateError.mailError}
                     />
@@ -107,7 +126,7 @@ export const SignUpPage: React.FC = (): JSX.Element => {
                     <TextField
                         error={!!validateError.nameError}
                         label="Name"
-                        defaultValue={name}
+                        value={name}
                         onChange={onChangeName}
                         helperText={validateError.nameError}
                     />
@@ -116,7 +135,7 @@ export const SignUpPage: React.FC = (): JSX.Element => {
                     <TextField
                         error={!!validateError.passwordError}
                         label="Password"
-                        defaultValue={password}
+                        value={password}
                         onChange={onChangePassword}
                         type='password'
                         helperText={validateError.passwordError}

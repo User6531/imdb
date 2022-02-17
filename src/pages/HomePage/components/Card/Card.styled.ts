@@ -1,8 +1,16 @@
 import styled from 'styled-components';
+import { breakpoints } from 'global/breakpoints';
 
 const Wrapper = styled.div`
-    width: 50%;
+    width: 25%;
     margin: 50px auto;
+    min-height: 320px;
+    
+    ${breakpoints("width", "%", [
+        { 1200: 33.333 },
+        { 867: 50 },
+        { 620: 100 },
+    ])};
 `,
 ImgWrapper = styled.div`
     width: 250px;
@@ -35,6 +43,9 @@ Item = styled.div`
     svg {
         margin-left: 15px;
     }
+`,
+PopoverWrapper = styled.div`
+    padding: 15px;
 `
 
 export default {
@@ -43,5 +54,6 @@ export default {
     Img,
     ImgTitle,
     Description,
-    Item
+    Item,
+    PopoverWrapper
 }

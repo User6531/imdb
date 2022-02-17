@@ -18,7 +18,7 @@ Button = styled(muiButton)`&&& {
     }
 }`,
 ButtonGroup = styled(muiButtonGroup)`&&&{
-    margin: 200px auto;
+    margin: 50px auto;
 
 }`
 

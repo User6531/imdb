@@ -8,6 +8,15 @@ const
 Wrapper = styled.div`
     max-width: 1200px;
     margin: 0 auto;
+
+    .infinite-scroll {
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
 `,
 Button = styled(muiButton)`&&& {
     font-size: 18px;
@@ -27,12 +36,10 @@ Header = styled.div`
     align-items: center;
     justify-content: space-around;
 `,
-CardsWrapper = styled.div`
+Loading = styled.div`
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    text-align: center;
+    color: green;
 `
 
 export default { 
@@ -41,5 +48,5 @@ export default {
     ButtonGroup,
     HelloTitle,
     Header,
-    CardsWrapper
+    Loading
 }

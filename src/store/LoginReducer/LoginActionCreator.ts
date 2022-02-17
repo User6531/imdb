@@ -11,6 +11,8 @@ type TFilm = {
     poster: string;
     director: string;
     imdbrating: string;
+    rated: string;
+    country: string;
 }
 
 export const fetchFilms= () => async (dispatch: AppDispatch): Promise<void> => {
