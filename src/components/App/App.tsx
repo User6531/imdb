@@ -18,10 +18,10 @@ export const App: React.FC = (): JSX.Element => {
     <S.Wrapper>
        <Routes>
           <Route>
-            <Route path="imdb" element={<WelcomePage setSignUpBehavior={setSignUpBehavior}/>} />
-            <Route path="imdb/sign-up" element={<SignUpPage signUpBehavior={signUpBehavior}/>} />
-            <Route path="imdb/sign-in" element={<SignInPage />} />
-            <Route path="imdb/home" element={<HomePage />} />
+            <Route path="/" element={<WelcomePage setSignUpBehavior={setSignUpBehavior}/>} />
+            <Route path="sign-up" element={<SignUpPage signUpBehavior={signUpBehavior}/>} />
+            <Route path="sign-in" element={<SignInPage />} />
+            <Route path="home" element={<HomePage />} />
             <Route path='*' element={<NotFoundPage />} />
           </Route> 
         </Routes>

@@ -6,7 +6,7 @@ export const NotFoundPage: React.FC = (): JSX.Element => {
     return (
         <S.Wrapper>
             <div>404 Page Not Found</div>
-            <Link to={'imdb'}>go home</Link>
+            <Link to={'/'}>go home</Link>
         </S.Wrapper>
     )
 }

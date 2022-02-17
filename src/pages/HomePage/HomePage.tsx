@@ -74,8 +74,8 @@ export const HomePage: React.FC = (): JSX.Element => {
             return (
                 <S.Header>
                     <S.ButtonGroup orientation="horizontal" >
-                        <Link to={'/imdb/sign-up'}><S.Button>SIGN UP</S.Button></Link>
-                        <Link to={'/imdb/sign-in'}> <S.Button>SIGN IN</S.Button></Link>
+                        <Link to={'/sign-up'}><S.Button>SIGN UP</S.Button></Link>
+                        <Link to={'/sign-in'}> <S.Button>SIGN IN</S.Button></Link>
                     </S.ButtonGroup>
                 </S.Header>
             )
